@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>viro – Ultimate IXL Enhancement</title>
+    <meta name="description" content="Custom profile pictures, help with every lesson, dark mode, file upload, and more. Transform your IXL experience.">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: #f5f7fb;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        :root {
+            --accent: #00affa;
+            --accent-dark: #0082c4;
+            --bg-light: #ffffff;
+            --bg-off: #f9fafb;
+            --text-dark: #111827;
+            --text-muted: #4b5563;
+            --border: #e5e7eb;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem 2rem;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e6f4fe 100%);
+            border-radius: 2rem;
+            margin-bottom: 3rem;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00affa, #3b82f6);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: white;
+            padding: 0.25rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .hero .buttons {
+            margin-top: 2rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.8rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 2px 8px rgba(0,175,250,0.3);
+        }
+        .btn-primary:hover {
+            background: var(--accent-dark);
+            transform: translateY(-2px);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+        }
+        .btn-outline:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Features grid */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .feature-card {
+            background: var(--bg-light);
+            border-radius: 1.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: 1px solid var(--border);
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .feature-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Mockup */
+        .mockup {
+            background: #1e1e2f;
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
+            margin: 3rem 0;
+            border: 1px solid rgba(0,175,250,0.3);
+        }
+        .mockup-header {
+            background: #0f0f1a;
+            padding: 0.75rem 1rem;
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid #2a2a3c;
+        }
+        .mockup-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff5f56;
+        }
+        .mockup-dot:nth-child(2) { background: #ffbd2e; }
+        .mockup-dot:nth-child(3) { background: #27c93f; }
+        .mockup-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            background: #f8fafc;
+        }
+        .mockup-left {
+            flex: 2;
+            min-width: 240px;
+        }
+        .mockup-right {
+            flex: 3;
+            min-width: 280px;
+        }
+        .profile-preview {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 1rem;
+            border: 1px solid #e2e8f0;
+        }
+        .avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00affa, #3b82f6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        .input-group {
+            margin-bottom: 1rem;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+        }
+        .help-button-preview {
+            background: #eef2ff;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+        .help-btn {
+            background: #7ebb00;
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .engine-icons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .engine-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            border: 1px solid #ddd;
+        }
+        .dark-mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        /* Installation */
+        .install-steps {
+            background: var(--bg-off);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+        .install-steps h2 {
+            margin-bottom: 1rem;
+        }
+        .steps {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: space-between;
+        }
+        .step {
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            color: white;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Keybinds */
+        .keybinds {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            margin: 2rem 0;
+        }
+        .keybinds table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .keybinds th, .keybinds td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .keybinds th {
+            background: #f1f5f9;
+            font-weight: 600;
+        }
+        .keybinds kbd {
+            background: #f1f5f9;
+            border-radius: 0.25rem;
+            padding: 0.2rem 0.4rem;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border);
+            margin-top: 3rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .container { padding: 1rem; }
+            .mockup-content { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Hero -->
+        <div class="hero">
+            <div class="badge">✨ v2.0 – Enhanced Edition ✨</div>
+            <h1>viro</h1>
+            <p>Custom profile pictures, instant lesson help, dark mode, and more — supercharge your IXL experience.</p>
+            <div class="buttons">
+                <a href="#" class="btn btn-primary" id="installBtn">📥 Install Userscript</a>
+                <a href="https://greasyfork.org/scripts/463260" class="btn btn-outline" target="_blank">🌐 Greasy Fork</a>
+            </div>
+        </div>
+
+        <!-- Features grid -->
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🖼️</div>
+                <h3>Custom Profile Pictures</h3>
+                <p>Upload your own images (local files or URLs) and they're stored locally. Choose from your saved gallery.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Help with Every Lesson</h3>
+                <p>One‑click access to YouTube, Google, Khan Academy, Wikipedia, Quizlet, and Wolfram Alpha, pre‑searched with your current lesson.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🌙</div>
+                <h3>Dark Mode</h3>
+                <p>Toggle a comfortable dark theme that respects your eyes during late‑night study sessions.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📁</div>
+                <h3>File Upload Support</h3>
+                <p>Pick images from your device – they are stored as data URLs so they survive page reloads.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <h3>Customizable Help Button</h3>
+                <p>Choose whether the help button appears on the left or right side of the screen.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💾</div>
+                <h3>Local Storage</h3>
+                <p>All your settings and images are saved locally – no data leaves your browser.</p>
+            </div>
+        </div>
+
+        <!-- UI Mockup -->
+        <div class="mockup">
+            <div class="mockup-header">
+                <div class="mockup-dot"></div>
+                <div class="mockup-dot"></div>
+                <div class="mockup-dot"></div>
+                <span style="margin-left: 0.5rem; color: #aaa;">ixl.com – viro active</span>
+            </div>
+            <div class="mockup-content">
+                <div class="mockup-left">
+                    <div class="profile-preview">
+                        <div class="avatar">👤</div>
+                        <div>
+                            <strong>Your Profile</strong><br>
+                            <span style="font-size: 0.8rem;">Click to customize</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" placeholder="Paste image URL..." value="https://via.placeholder.com/100">
+                    </div>
+                    <div class="input-group">
+                        <input type="file" accept="image/*" style="background: white;">
+                    </div>
+                    <div class="dark-mode-toggle">
+                        <span>🌙 Dark Mode</span>
+                        <label style="cursor: pointer;">
+                            <input type="checkbox" id="mockDarkToggle"> Enable
+                        </label>
+                    </div>
+                </div>
+                <div class="mockup-right">
+                    <div class="help-button-preview">
+                        <div style="display: flex; justify-content: flex-end;">
+                            <button class="help-btn">Help</button>
+                        </div>
+                        <div style="margin-top: 0.75rem;">
+                            <strong>Current lesson:</strong> <em>Solving linear equations</em>
+                            <div class="engine-icons">
+                                <div class="engine-icon">YT</div>
+                                <div class="engine-icon">G</div>
+                                <div class="engine-icon">KA</div>
+                                <div class="engine-icon">WP</div>
+                                <div class="engine-icon">QZ</div>
+                                <div class="engine-icon">WA</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Installation Guide -->
+        <div class="install-steps">
+            <h2>📦 Installation</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Install a userscript manager</h3>
+                    <p>Get <a href="https://www.tampermonkey.net/" target="_blank">Tampermonkey</a> (Chrome/Edge) or <a href="https://violentmonkey.github.io/" target="_blank">Violentmonkey</a> (Firefox).</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Install the script</h3>
+                    <p>Click the "Install Userscript" button above or visit the <a href="https://greasyfork.org/scripts/463260" target="_blank">Greasy Fork page</a> and click "Install".</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Reload IXL</h3>
+                    <p>Go to any IXL page – the mods will activate automatically. Open your profile to customize images.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keybinds & Commands -->
+        <div class="keybinds">
+            <table>
+                <thead>
+                    <tr><th>Action</th><th>Key / Method</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>Open profile customization</td><td>Click your name in the top‑right → "Profile, Settings, & Customization"</td></tr>
+                    <tr><td>Add profile picture from URL</td><td>Paste URL in the input field and press Enter</td></tr>
+                    <tr><td>Upload local image</td><td>Use the file picker next to the URL field</td></tr>
+                    <tr><td>Delete a saved image</td><td>In the gallery, click the ✖ button on the image</td></tr>
+                    <tr><td>Toggle dark mode</td><td>In the profile panel, check "Dark Mode"</td></tr>
+                    <tr><td>Change help button side</td><td>In the profile panel, select left or right from the dropdown</td></tr>
+                    <tr><td>Open lesson help</td><td>Click the "Help" button on any lesson page</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>⚠️ This userscript is not affiliated with IXL Learning. Use responsibly. All settings are stored locally in your browser.<br>
+            viro v2.0 – Enhanced by <a href="https://github.com/GSRHackZ" target="_blank">GSRHackZ</a> & Viros XL Team</p>
+        </div>
+    </div>
+
+    <script>
+        // Mockup dark mode toggle (just for visual demo)
+        const mockDarkToggle = document.getElementById('mockDarkToggle');
+        if (mockDarkToggle) {
+            mockDarkToggle.addEventListener('change', function(e) {
+                const mockupContent = document.querySelector('.mockup-content');
+                if (e.target.checked) {
+                    mockupContent.style.background = '#1e1e2f';
+                    mockupContent.style.color = '#e0e0e0';
+                    const inputs = mockupContent.querySelectorAll('input, .profile-preview, .help-button-preview');
+                    inputs.forEach(el => {
+                        el.style.background = '#2a2a3c';
+                        el.style.color = '#f0f0f0';
+                        el.style.borderColor = '#444';
+                    });
+                } else {
+                    mockupContent.style.background = '';
+                    mockupContent.style.color = '';
+                    const inputs = mockupContent.querySelectorAll('input, .profile-preview, .help-button-preview');
+                    inputs.forEach(el => {
+                        el.style.background = '';
+                        el.style.color = '';
+                        el.style.borderColor = '';
+                    });
+                }
+            });
+        }
+
+        // Install button – link to the actual script (update URL when hosted)
+        const installBtn = document.getElementById('installBtn');
+        if (installBtn) {
+            installBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.location.href = 'https://update.greasyfork.org/scripts/463260/viro.user.js';
+            });
+        }
+    </script>
+</body>
+</html>
